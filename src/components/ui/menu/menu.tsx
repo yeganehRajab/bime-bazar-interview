@@ -2,40 +2,48 @@ import { Stack, Typography } from "@mui/material";
 import React, { FC, useState } from "react";
 import { menuStyles } from "./menu.styles";
 import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
+import WhereToVoteRoundedIcon from "@mui/icons-material/WhereToVoteRounded";
+import AddLocationRoundedIcon from "@mui/icons-material/AddLocationRounded";
+import EditLocationRoundedIcon from "@mui/icons-material/EditLocationRounded";
 import BottomSheet from "../bottomSheet/bottomSheet";
 import MainInput from "../inputs/mainInput/mainInput";
+import { useRouter } from "next/router";
 
 const MainMenu: FC = () => {
-  const [bottomSheetIsOpen, setBottomSheetIsopen] = useState<boolean>(false);
+  const router = useRouter();
 
   return (
     <Stack sx={menuStyles.menuContainerSx()}>
       <Stack sx={menuStyles.contentContainerSx()}>
         <Stack
           sx={menuStyles.menuButtonSx()}
-          onClick={() => setBottomSheetIsopen((prev) => !prev)}
+          onClick={() =>
+            router.push({
+              query: { ...router.query, bottomSheetIsOpen: "true" },
+            })
+          }
         >
           <LocationOnRoundedIcon fontSize="inherit" />
           <Typography>location</Typography>
         </Stack>
 
         <Stack sx={menuStyles.menuButtonSx()}>
-          <LocationOnRoundedIcon fontSize="inherit" />
+          <WhereToVoteRoundedIcon fontSize="inherit" />
           <Typography>location</Typography>
         </Stack>
 
         <Stack sx={menuStyles.menuButtonSx()}>
-          <LocationOnRoundedIcon fontSize="inherit" />
+          <AddLocationRoundedIcon fontSize="inherit" />
           <Typography>location</Typography>
         </Stack>
 
         <Stack sx={menuStyles.menuButtonSx()}>
-          <LocationOnRoundedIcon fontSize="inherit" />
+          <EditLocationRoundedIcon fontSize="inherit" />
           <Typography>location</Typography>
         </Stack>
       </Stack>
 
-      <BottomSheet isOpen={bottomSheetIsOpen} setOpen={setBottomSheetIsopen}>
+      <BottomSheet id="bottomSheetIsOpen">
         <p>hellooooo</p>
         <p>hellooooo</p>
         <p>hellooooo</p>
