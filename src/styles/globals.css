@@ -2,6 +2,7 @@ html {
   /* handle rem to 10px */
   font-size: 62.5%;
   height: 100%;
+  direction: rtl;
 }
 
 a {
@@ -10,6 +11,7 @@ a {
 
 body {
   height: 100%;
+  margin: 0;
 }
 
 .disabled {
