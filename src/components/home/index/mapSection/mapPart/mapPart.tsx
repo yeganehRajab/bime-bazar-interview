@@ -1,8 +1,9 @@
 import { MapContainer, Marker, TileLayer } from "react-leaflet";
-import { mapSectionStyles } from "./mapSection.styles";
-import { myLocationMarker } from "./mapSection.types";
+import { mapSectionStyles } from "./mapPart.styles";
+import { myLocationMarker } from "./mapPart.types";
+import { FC } from "react";
 
-const MapSection = () => {
+const MapPart: FC = () => {
   const zoom = 13;
 
   return (
@@ -20,4 +21,4 @@ const MapSection = () => {
   );
 };
 
-export default MapSection;
+export default MapPart;

@@ -5,22 +5,16 @@ import { Box, Fade, Slide, Stack } from "@mui/material";
 
 import styles from "./bottomSheet.styles";
 import { IBottomSheet } from "./bottomSheet.types";
-import { useRouter } from "next/router";
 
 const BottomSheet: FC<IBottomSheet> = ({
+  setOpen = () => {},
   onClose = () => {},
+  isOpen = false,
   timeout = 500,
-  id = "isOpen",
   children,
 }) => {
-  const router = useRouter();
-  const isOpen = (router.query?.[id] as string) === "true";
-  console.log(router.query?.[id], isOpen);
-
   const handleClose = (): void => {
-    // setOpen(false);
-    // router.replace(id, undefined, { shallow: true });
-    router.push({ query: { ...router.query, [id]: "false" } });
+    setOpen(false);
     onClose();
   };
 

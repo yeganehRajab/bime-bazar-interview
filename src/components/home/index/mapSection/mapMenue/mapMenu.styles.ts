@@ -27,4 +27,4 @@ const menuButtonSx: TSxStyles = () => ({
   color: "#4d5255",
 });
 
-export const menuStyles = { menuButtonSx, menuContainerSx,  contentContainerSx };
+export const menuStyles = { menuButtonSx, menuContainerSx, contentContainerSx };

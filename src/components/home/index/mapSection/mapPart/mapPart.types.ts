@@ -10,3 +10,4 @@ export const myLocationMarker = new L.Icon({
   shadowAnchor: undefined,
   iconSize: new L.Point(30, 30),
 });
+

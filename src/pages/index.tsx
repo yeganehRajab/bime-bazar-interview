@@ -1,18 +1,20 @@
-import MainMenu from "@/components/ui/menu/menu";
+import MapSection from "@/components/home/index/mapSection/index/mapSection";
+import MapMenu from "@/components/home/index/mapSection/mapMenue/mapMenu";
 import { Stack } from "@mui/material";
-import dynamic from "next/dynamic";
+import { useState } from "react";
 
-const MapWithNoSSR = dynamic(
-  () => import("../components/home/index/mapSection/mapSection"),
-  {
-    ssr: false,
-  }
-);
 export default function Home() {
+  const [locationBottomSheetIsOpen, setLocationBottomSheetIsopen] =
+    useState<boolean>(false);
+
   return (
     <Stack direction={"column"} spacing={2}>
-      <MapWithNoSSR />
-      <MainMenu />
+      <MapSection
+        locationBottomSheet={locationBottomSheetIsOpen}
+        setLocationBottomSheet={setLocationBottomSheetIsopen}
+      />
+
+      <MapMenu setSearchLocationBottomSheet={setLocationBottomSheetIsopen} />
     </Stack>
   );
 }
