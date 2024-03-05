@@ -6,7 +6,8 @@ export interface ISearchLocationFormik {
 }
 
 export interface ISearchBottomSheetProps {
-  formik: FormikProps<ISearchLocationFormik>;
+  loading: boolean;
   locationBottomSheet: boolean;
+  formik: FormikProps<ISearchLocationFormik>;
   setLocationBottomSheet: Dispatch<SetStateAction<boolean>>;
 }

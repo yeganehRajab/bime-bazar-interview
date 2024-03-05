@@ -8,6 +8,7 @@ import { ISearchBottomSheetProps } from "./searchLocationBottomSheet.types";
 
 const SearchLocationBottomSheet: FC<ISearchBottomSheetProps> = ({
   formik,
+  loading,
   locationBottomSheet,
   setLocationBottomSheet,
 }) => {
@@ -19,6 +20,7 @@ const SearchLocationBottomSheet: FC<ISearchBottomSheetProps> = ({
             id="search"
             label="Outlined"
             variant="outlined"
+            disabled={loading}
             sx={styles.inputSx()}
             {...formik.getFieldProps("search")}
             error={formik.touched.search && !!formik.errors.search}
@@ -28,6 +30,7 @@ const SearchLocationBottomSheet: FC<ISearchBottomSheetProps> = ({
           <Button
             type="submit"
             variant="contained"
+            disabled={loading}
             sx={styles.searchButtonSx()}
           >
             <SearchRoundedIcon fontSize="inherit" />

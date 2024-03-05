@@ -4,17 +4,12 @@ import { Stack } from "@mui/material";
 import { useState } from "react";
 
 export default function Home() {
-  const [locationBottomSheetIsOpen, setLocationBottomSheetIsopen] =
-    useState<boolean>(false);
+  
 
   return (
-    <Stack direction={"column"} spacing={2}>
-      <MapSection
-        locationBottomSheet={locationBottomSheetIsOpen}
-        setLocationBottomSheet={setLocationBottomSheetIsopen}
-      />
+    // <Stack direction={"column"} spacing={2}>
+    <MapSection />
 
-      <MapMenu setSearchLocationBottomSheet={setLocationBottomSheetIsopen} />
-    </Stack>
+    // </Stack>
   );
 }

@@ -1,25 +1,25 @@
-import dynamic from "next/dynamic";
-import { FC } from "react";
-import { IMapSectionProps } from "./mapSection.types";
+import { searchLocation } from "@/api/searchLocation/api";
 import { Stack } from "@mui/material";
+import { useFormik } from "formik";
+import dynamic from "next/dynamic";
+import { FC, useState } from "react";
+import { useMutation } from "react-query";
+import { toast } from "react-toastify";
 import SearchLocationBottomSheet from "../bottomSheets/searchLocationBottomSheet";
 import {
   searchLocationFormInitialValue,
   searchLocationFormValidationSchema,
 } from "../bottomSheets/searchLocationBottomSheet.tools";
-import { useFormik } from "formik";
-import { toast } from "react-toastify";
-import { useMutation } from "react-query";
-import { searchLocation } from "@/api/searchLocation/api";
+import MapMenu from "../mapMenue/mapMenu";
 
 const MapPart = dynamic(() => import("../mapPart/mapPart"), {
   ssr: false,
 });
 
-const MapSection: FC<IMapSectionProps> = ({
-  locationBottomSheet,
-  setLocationBottomSheet,
-}) => {
+const MapSection: FC = () => {
+  const [locationBottomSheetIsOpen, setLocationBottomSheetIsopen] =
+    useState<boolean>(false);
+
   //search field value
   const searchLocationMutation = useMutation({
     mutationFn: searchLocation,
@@ -46,11 +46,18 @@ const MapSection: FC<IMapSectionProps> = ({
     <Stack>
       <MapPart />
 
+      {/* map menu */}
+      <MapMenu
+        searchLocationFormFormik={searchLocationFormik}
+        setSearchLocationBottomSheet={setLocationBottomSheetIsopen}
+      />
+
       {/* bottomSheets */}
       <SearchLocationBottomSheet
         formik={searchLocationFormik}
-        locationBottomSheet={locationBottomSheet}
-        setLocationBottomSheet={setLocationBottomSheet}
+        locationBottomSheet={locationBottomSheetIsOpen}
+        setLocationBottomSheet={setLocationBottomSheetIsopen}
+        loading={searchLocationMutation.isLoading}
       />
     </Stack>
   );
