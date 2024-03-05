@@ -11,7 +11,12 @@ const containerSx: TSxStyles = () => ({
 const searchButtonSx: TSxStyles = () => ({
   borderRadius: "8px",
   fontSize: "2.8rem",
+  height: "47.38px",
 });
 
-const bottomSheetStyles = { containerSx, searchButtonSx };
+const inputSx: TSxStyles = () => ({
+  flexGrow: "1",
+});
+
+const bottomSheetStyles = { containerSx, searchButtonSx, inputSx };
 export default bottomSheetStyles;

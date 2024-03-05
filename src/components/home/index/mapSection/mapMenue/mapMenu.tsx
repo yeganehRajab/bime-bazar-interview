@@ -7,13 +7,14 @@ import { Stack } from "@mui/material";
 import { FC } from "react";
 import { menuStyles } from "./mapMenu.styles";
 import { IMapMenuProps } from "./mapMenu.types";
+import { bottomSheetHandler } from "@/utils/bottomSheetHandler";
 
 const MapMenu: FC<IMapMenuProps> = ({ setSearchLocationBottomSheet }) => {
   return (
     <Stack sx={menuStyles.menuContainerSx()}>
       <Stack sx={menuStyles.contentContainerSx()}>
         <MenuButton
-          onClick={() => setSearchLocationBottomSheet((prev) => !prev)}
+          onClick={() => bottomSheetHandler(setSearchLocationBottomSheet)}
           icon={<LocationOnRoundedIcon fontSize="inherit" />}
         />
         <MenuButton

@@ -5,6 +5,8 @@ import MainLayout from "../components/layout/layout";
 import "leaflet/dist/leaflet.css";
 import { QueryClientProvider, QueryClient } from "react-query";
 import Head from "next/head";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const queryClient = new QueryClient();
 export default function App({ Component, pageProps }: AppProps) {
@@ -22,6 +24,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <MainLayout>
             <Component {...pageProps} />
           </MainLayout>
+          <ToastContainer rtl position={"top-center"} />
         </MuiWrapper>
       </QueryClientProvider>
     </>
