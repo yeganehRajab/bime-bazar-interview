@@ -5,3 +5,7 @@ export interface IPostSarchLocationResponse {
   lat: string;
   lng: string;
 }
+
+export interface ISearchLocationProps {
+  search: string;
+}

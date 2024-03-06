@@ -1,12 +1,10 @@
 import { mockApi } from "../api";
-import { IPostSarchLocationResponse } from "./api.types";
+import { IPostSarchLocationResponse, ISearchLocationProps } from "./api.types";
 
-export const searchLocation = async ({
-  search,
-}: {
-  search: string;
-}): Promise<IPostSarchLocationResponse> => {
-  const response = await mockApi.post<IPostSarchLocationResponse>(
+export const searchLocation = async (
+  search: ISearchLocationProps
+): Promise<IPostSarchLocationResponse[]> => {
+  const response = await mockApi.post<IPostSarchLocationResponse[]>(
     "/search-result",
     search
   );

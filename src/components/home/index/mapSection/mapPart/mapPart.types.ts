@@ -1,3 +1,4 @@
+import { IPostSarchLocationResponse } from "@/api/searchLocation/api.types";
 import L from "leaflet";
 
 export const myLocationMarker = new L.Icon({
@@ -11,3 +12,6 @@ export const myLocationMarker = new L.Icon({
   iconSize: new L.Point(30, 30),
 });
 
+export interface IMapPartProps {
+  searchLocationData: IPostSarchLocationResponse[] | undefined;
+}

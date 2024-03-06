@@ -2,6 +2,5 @@ import { ISearchLocationFormik } from "../bottomSheets/searchLocationBottomSheet
 import { FormikProps } from "formik";
 
 export interface IMapMenuProps {
-  searchLocationFormFormik: FormikProps<ISearchLocationFormik>;
   setSearchLocationBottomSheet: React.Dispatch<React.SetStateAction<boolean>>;
 }

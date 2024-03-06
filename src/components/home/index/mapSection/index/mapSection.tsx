@@ -1,8 +1,9 @@
 import { searchLocation } from "@/api/searchLocation/api";
+import { convertMtoMS } from "@/utils/time/convertMtoMS";
 import { Stack } from "@mui/material";
 import { useFormik } from "formik";
 import dynamic from "next/dynamic";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import { toast } from "react-toastify";
 import SearchLocationBottomSheet from "../bottomSheets/searchLocationBottomSheet";
@@ -17,11 +18,16 @@ const MapPart = dynamic(() => import("../mapPart/mapPart"), {
 });
 
 const MapSection: FC = () => {
-  const [locationBottomSheetIsOpen, setLocationBottomSheetIsopen] =
+  const [locationBottomSheetIsOpen, setLocationBottomSheetIsOpen] =
     useState<boolean>(false);
 
   //search field value
-  const searchLocationMutation = useMutation({
+  const {
+    data: searchLocationData,
+    mutate: searchLocationMutation,
+    isLoading: searchLocationMutationiIsLoading,
+  } = useMutation({
+    mutationKey: ["searchedLocation"],
     mutationFn: searchLocation,
     onError: () => {
       toast.error("error!!");
@@ -33,31 +39,53 @@ const MapSection: FC = () => {
     initialValues: searchLocationFormInitialValue,
     validationSchema: searchLocationFormValidationSchema,
     onSubmit: (values) => {
-      searchLocationMutation.mutate(values, {
-        onSuccess: () => {
-          toast.success("success!!");
-          searchLocationFormik.resetForm();
-        },
-      });
+      searchLocationMutation(
+        { search: values.search },
+        {
+          onSuccess: () => {
+            toast.success("success!!");
+            setLocationBottomSheetIsOpen(false);
+          },
+        }
+      );
     },
   });
 
+  //handle refetch data in specific period
+  useEffect(() => {
+    if (
+      !!searchLocationFormik.values.period?.value &&
+      searchLocationFormik.values.period?.value !== 0
+    ) {
+      setInterval(
+        () =>
+          searchLocationMutation(
+            { search: searchLocationFormik.values.search ?? "" },
+            {
+              onSuccess: () => {
+                //mut fly to new lat and lang
+                //TODO:if need --- check with real api
+              },
+            }
+          ),
+        convertMtoMS(searchLocationFormik.values.period?.value)
+      );
+    }
+  }, [searchLocationFormik.values.period]);
+
   return (
     <Stack>
-      <MapPart />
+      <MapPart searchLocationData={searchLocationData} />
 
       {/* map menu */}
-      <MapMenu
-        searchLocationFormFormik={searchLocationFormik}
-        setSearchLocationBottomSheet={setLocationBottomSheetIsopen}
-      />
+      <MapMenu setSearchLocationBottomSheet={setLocationBottomSheetIsOpen} />
 
       {/* bottomSheets */}
       <SearchLocationBottomSheet
         formik={searchLocationFormik}
         locationBottomSheet={locationBottomSheetIsOpen}
-        setLocationBottomSheet={setLocationBottomSheetIsopen}
-        loading={searchLocationMutation.isLoading}
+        setLocationBottomSheet={setLocationBottomSheetIsOpen}
+        loading={searchLocationMutationiIsLoading}
       />
     </Stack>
   );

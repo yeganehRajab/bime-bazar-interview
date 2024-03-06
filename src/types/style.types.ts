@@ -6,3 +6,8 @@ interface ITheme {
 }
 
 export type TSxStyles<T = ITheme> = (props?: T & ITheme) => SxProps<Theme>;
+
+export interface ISelectOptions {
+  label: string;
+  value: number;
+}

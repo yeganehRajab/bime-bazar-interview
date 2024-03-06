@@ -9,17 +9,13 @@ import { menuStyles } from "./mapMenu.styles";
 import { IMapMenuProps } from "./mapMenu.types";
 import { bottomSheetHandler } from "@/utils/bottomSheetHandler/bottomSheetHandler";
 
-const MapMenu: FC<IMapMenuProps> = ({
-  setSearchLocationBottomSheet,
-  searchLocationFormFormik,
-}) => {
+const MapMenu: FC<IMapMenuProps> = ({ setSearchLocationBottomSheet }) => {
   return (
     <Stack sx={menuStyles.menuContainerSx()}>
       <Stack sx={menuStyles.contentContainerSx()}>
         <MenuButton
           onClick={() => {
             bottomSheetHandler(setSearchLocationBottomSheet);
-            searchLocationFormFormik.resetForm();
           }}
           icon={<LocationOnRoundedIcon fontSize="inherit" />}
         />
