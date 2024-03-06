@@ -1,15 +1,39 @@
+import { getConfig, getPermissions } from "@/api/config/api";
 import MapSection from "@/components/home/index/mapSection/index/mapSection";
-import MapMenu from "@/components/home/index/mapSection/mapMenue/mapMenu";
-import { Stack } from "@mui/material";
-import { useState } from "react";
+import QueryWrapper from "@/components/ui/wrapper/queryWrapper/queryWrapper";
+import { useQuery } from "react-query";
 
 export default function Home() {
-  
+  const {
+    // data: configData,
+    isLoading: configDataIsLoading,
+    isError: configDataIsError,
+    refetch: configDataRefetch,
+  } = useQuery({
+    queryKey: ["config"],
+    queryFn: () => getConfig(),
+  });
+
+  const {
+    // data: permissionsData,
+    isLoading: permissionsDataIsLoading,
+    isError: permissionsDataIsError,
+    refetch: permissionsDataRefetch,
+  } = useQuery({
+    queryKey: ["permissions"],
+    queryFn: () => getPermissions(),
+  });
 
   return (
-    // <Stack direction={"column"} spacing={2}>
-    <MapSection />
-
-    // </Stack>
+    <QueryWrapper
+      isError={permissionsDataIsError || permissionsDataIsError}
+      isLoading={configDataIsLoading || permissionsDataIsLoading}
+      refetch={() => {
+        configDataRefetch();
+        permissionsDataRefetch();
+      }}
+    >
+      <MapSection />
+    </QueryWrapper>
   );
 }

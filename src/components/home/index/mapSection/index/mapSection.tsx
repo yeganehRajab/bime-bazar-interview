@@ -42,6 +42,8 @@ const MapSection: FC = () => {
     },
   });
 
+
+
   return (
     <Stack>
       <MapPart />

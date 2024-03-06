@@ -6,5 +6,5 @@ const inputSx: TSxStyles = () => ({
   },
 });
 
-const maininputStyles = { inputSx };
-export default maininputStyles;
+const mainInputStyles = { inputSx };
+export default mainInputStyles;
