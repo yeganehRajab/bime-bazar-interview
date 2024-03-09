@@ -12,11 +12,12 @@ import styles from "./mapPart.styles";
 import { IMapPartProps, myLocationMarker } from "./mapPart.types";
 import FitBounds from "../fitBounds/fitbounds";
 import { IconButton } from "@mui/material";
-import GpsFixedRoundedIcon from "@mui/icons-material/GpsFixedRounded";
 
-const MapPart: FC<IMapPartProps> = ({ searchLocationData }) => {
+const MapPart: FC<IMapPartProps> = ({
+  searchLocationData,
+  fitBoundsTrigger,
+}) => {
   const mapRef = useRef<Map>(null);
-  const [fitBoundsTrigger, setFitBoundsTrigger] = useState<boolean>(false);
 
   //memoize centers
   const renderedCenters = useMemo(() => {
@@ -49,11 +50,6 @@ const MapPart: FC<IMapPartProps> = ({ searchLocationData }) => {
     }
   }, [searchLocationData]);
 
-  // Function to toggle fit bounds trigger
-  const showAllLocations = () => {
-    setFitBoundsTrigger((prev) => !prev);
-  };
-
   return (
     <>
       <MapContainer
@@ -71,10 +67,6 @@ const MapPart: FC<IMapPartProps> = ({ searchLocationData }) => {
           triggerFitBounds={fitBoundsTrigger}
         />
       </MapContainer>
-
-      <IconButton sx={styles.showAllButtonsSx()} onClick={showAllLocations}>
-        <GpsFixedRoundedIcon />
-      </IconButton>
     </>
   );
 };

@@ -12,20 +12,34 @@ import {
   searchLocationFormValidationSchema,
 } from "../bottomSheets/searchLocationBottomSheet.tools";
 import MapMenu from "../mapMenue/mapMenu";
+import ShowAllLocationsButton from "../showAllLocationsButton/showAllLocationsButton";
 
 const MapPart = dynamic(() => import("../mapPart/mapPart"), {
   ssr: false,
 });
 
 const MapSection: FC = () => {
+  // location bottom sheet handler state
   const [locationBottomSheetIsOpen, setLocationBottomSheetIsOpen] =
     useState<boolean>(false);
+  // bounds fitter state
+  const [fitBoundsTrigger, setFitBoundsTrigger] = useState<boolean>(false);
+  //handle tracking the locations
+  const [isTrackingLocation, setIsTrackingLocations] = useState<boolean>(false);
+  // Interval reference
+  const [intervalRef, setIntervalRef] = useState<NodeJS.Timeout | null>(null);
+
+  // Function to toggle fit bounds trigger
+  const showAllLocations = () => {
+    setFitBoundsTrigger((prev) => !prev);
+    setIsTrackingLocations((prev) => !prev);
+  };
 
   //search field value
   const {
     data: searchLocationData,
     mutate: searchLocationMutation,
-    isLoading: searchLocationMutationiIsLoading,
+    isLoading: searchLocationMutationIsLoading,
   } = useMutation({
     mutationKey: ["searchedLocation"],
     mutationFn: searchLocation,
@@ -44,6 +58,7 @@ const MapSection: FC = () => {
         {
           onSuccess: () => {
             toast.success("success!!");
+            setIsTrackingLocations(true);
             setLocationBottomSheetIsOpen(false);
           },
         }
@@ -51,31 +66,45 @@ const MapSection: FC = () => {
     },
   });
 
+  //if has Tracking
+  const hasTracking =
+    !!searchLocationFormik.values.period?.value &&
+    searchLocationFormik.values.period?.value !== 0;
+
   //handle refetch data in specific period
   useEffect(() => {
-    if (
-      !!searchLocationFormik.values.period?.value &&
-      searchLocationFormik.values.period?.value !== 0
-    ) {
-      setInterval(
-        () =>
-          searchLocationMutation(
-            { search: searchLocationFormik.values.search ?? "" },
-            {
-              onSuccess: () => {
-                //mut fly to new lat and lang
-                //TODO:if need --- check with real api
-              },
-            }
-          ),
-        convertMtoMS(searchLocationFormik.values.period?.value)
-      );
+    if (hasTracking) {
+      if (isTrackingLocation) {
+        const intervalId = setInterval(
+          () =>
+            searchLocationMutation(
+              { search: searchLocationFormik.values.search ?? "" },
+              {
+                onSuccess: () => {
+                  //mut fly to new lat and lang
+                  //TODO:if need --- check with real api
+                },
+              }
+            ),
+          convertMtoMS(searchLocationFormik.values.period?.value as number)
+        );
+        setIntervalRef(intervalId);
+      } else {
+        // Clear interval if tracking is stopped
+        if (intervalRef) {
+          clearInterval(intervalRef);
+          setIntervalRef(null);
+        }
+      }
     }
-  }, [searchLocationFormik.values.period]);
+  }, [searchLocationFormik.values.period, isTrackingLocation]);
 
   return (
     <Stack>
-      <MapPart searchLocationData={searchLocationData} />
+      <MapPart
+        searchLocationData={searchLocationData}
+        fitBoundsTrigger={fitBoundsTrigger}
+      />
 
       {/* map menu */}
       <MapMenu setSearchLocationBottomSheet={setLocationBottomSheetIsOpen} />
@@ -85,8 +114,16 @@ const MapSection: FC = () => {
         formik={searchLocationFormik}
         locationBottomSheet={locationBottomSheetIsOpen}
         setLocationBottomSheet={setLocationBottomSheetIsOpen}
-        loading={searchLocationMutationiIsLoading}
+        loading={searchLocationMutationIsLoading}
       />
+
+      {/* show all locations */}
+      {hasTracking && (
+        <ShowAllLocationsButton
+          onClick={showAllLocations}
+          isTrackingLocation={isTrackingLocation}
+        />
+      )}
     </Stack>
   );
 };

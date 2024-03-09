@@ -13,4 +13,5 @@ export const myLocationMarker = new L.Icon({
 
 export interface IMapPartProps {
   searchLocationData: IPostSarchLocationResponse[] | undefined;
+  fitBoundsTrigger: boolean;
 }
