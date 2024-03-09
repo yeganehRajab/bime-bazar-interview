@@ -17,9 +17,10 @@ const MapPart: FC<IMapPartProps> = ({
   searchLocationData,
   fitBoundsTrigger,
 }) => {
+  // get reference of map section
   const mapRef = useRef<Map>(null);
 
-  //memoize centers
+  //memoize rendered centers
   const renderedCenters = useMemo(() => {
     return searchLocationData?.map((center, index) => (
       <Marker

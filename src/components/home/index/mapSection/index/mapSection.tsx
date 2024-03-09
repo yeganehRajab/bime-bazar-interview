@@ -101,6 +101,7 @@ const MapSection: FC = () => {
 
   return (
     <Stack>
+      {/* map */}
       <MapPart
         searchLocationData={searchLocationData}
         fitBoundsTrigger={fitBoundsTrigger}
@@ -109,7 +110,7 @@ const MapSection: FC = () => {
       {/* map menu */}
       <MapMenu setSearchLocationBottomSheet={setLocationBottomSheetIsOpen} />
 
-      {/* bottomSheets */}
+      {/* search location bottomSheets */}
       <SearchLocationBottomSheet
         formik={searchLocationFormik}
         locationBottomSheet={locationBottomSheetIsOpen}
@@ -117,7 +118,7 @@ const MapSection: FC = () => {
         loading={searchLocationMutationIsLoading}
       />
 
-      {/* show all locations */}
+      {/* show all locations buttons*/}
       {hasTracking && (
         <ShowAllLocationsButton
           onClick={showAllLocations}
