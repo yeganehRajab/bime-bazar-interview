@@ -1,20 +1,21 @@
-import { searchLocation } from "@/api/searchLocation/api";
-import { convertMtoMS } from "@/utils/time/convertMtoMS";
-import { Stack } from "@mui/material";
-import { useFormik } from "formik";
-import dynamic from "next/dynamic";
-import { FC, useEffect, useState } from "react";
-import { useMutation } from "react-query";
-import { toast } from "react-toastify";
-import SearchLocationBottomSheet from "../bottomSheets/searchLocationBottomSheet";
+import { searchLocation } from '@/api/searchLocation/api';
+import { convertMtoMS } from '@/utils/time/convertMtoMS';
+import { Stack } from '@mui/material';
+import { useFormik } from 'formik';
+import dynamic from 'next/dynamic';
+import { FC, useEffect, useState } from 'react';
+import { useMutation } from 'react-query';
+import { toast } from 'react-toastify';
+import SearchLocationBottomSheet from '../bottomSheets/searchLocationBottomSheet';
 import {
   searchLocationFormInitialValue,
   searchLocationFormValidationSchema,
-} from "../bottomSheets/searchLocationBottomSheet.tools";
-import MapMenu from "../mapMenue/mapMenu";
-import ShowAllLocationsButton from "../showAllLocationsButton/showAllLocationsButton";
+} from '../bottomSheets/searchLocationBottomSheet.tools';
+import MapMenu from '../mapMenue/mapMenu';
+import ShowAllLocationsButton from '../showAllLocationsButton/showAllLocationsButton';
+import { IPostSarchLocationResponse } from '@/api/searchLocation/api.types';
 
-const MapPart = dynamic(() => import("../mapPart/mapPart"), {
+const MapPart = dynamic(() => import('../mapPart/mapPart'), {
   ssr: false,
 });
 
@@ -28,6 +29,8 @@ const MapSection: FC = () => {
   const [isTrackingLocation, setIsTrackingLocations] = useState<boolean>(false);
   // Interval reference
   const [intervalRef, setIntervalRef] = useState<NodeJS.Timeout | null>(null);
+  //searched values
+  const [locations, setLocations] = useState<IPostSarchLocationResponse[]>();
 
   // Function to toggle fit bounds trigger
   const showAllLocations = () => {
@@ -37,14 +40,14 @@ const MapSection: FC = () => {
 
   //search field value
   const {
-    data: searchLocationData,
+    // data: searchLocationData,
     mutate: searchLocationMutation,
     isLoading: searchLocationMutationIsLoading,
   } = useMutation({
-    mutationKey: ["searchedLocation"],
+    mutationKey: ['searchedLocation'],
     mutationFn: searchLocation,
     onError: () => {
-      toast.error("error!!");
+      toast.error('error!!');
     },
   });
 
@@ -56,10 +59,21 @@ const MapSection: FC = () => {
       searchLocationMutation(
         { search: values.search },
         {
-          onSuccess: () => {
-            toast.success("success!!");
+          onSuccess: (response) => {
+            toast.success('success!!');
             setIsTrackingLocations(true);
             setLocationBottomSheetIsOpen(false);
+            //put locations in state
+            setLocations((prev) => {
+              // TODO: ask about data identifier
+              if (prev && prev[prev?.length - 1].name === response.name) {
+                return prev;
+              } else if (prev) {
+                return [...prev, response];
+              } else {
+                return [response];
+              }
+            });
           },
         }
       );
@@ -78,7 +92,7 @@ const MapSection: FC = () => {
         const intervalId = setInterval(
           () =>
             searchLocationMutation(
-              { search: searchLocationFormik.values.search ?? "" },
+              { search: searchLocationFormik.values.search ?? '' },
               {
                 onSuccess: () => {
                   //mut fly to new lat and lang
@@ -103,7 +117,7 @@ const MapSection: FC = () => {
     <Stack>
       {/* map */}
       <MapPart
-        searchLocationData={searchLocationData}
+        searchLocationData={locations}
         fitBoundsTrigger={fitBoundsTrigger}
       />
 

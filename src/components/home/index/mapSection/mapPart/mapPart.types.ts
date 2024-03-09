@@ -1,5 +1,5 @@
-import { IPostSarchLocationResponse } from "@/api/searchLocation/api.types";
-import L from "leaflet";
+import { IPostSarchLocationResponse } from '@/api/searchLocation/api.types';
+import L from 'leaflet';
 
 // export const myLocationMarker = new L.Icon({
 //   iconUrl: "/images/mapSection/location-marker.png",

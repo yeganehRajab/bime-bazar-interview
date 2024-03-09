@@ -1,17 +1,17 @@
-import { flyTo } from "@/utils/map/map";
-import { Map } from "leaflet";
-import { FC, useEffect, useMemo, useRef } from "react";
-import { MapContainer, Marker, TileLayer } from "react-leaflet";
-import { IMapPartProps } from "./mapPart.types";
-import FitBounds from "../fitBounds/fitbounds";
-import MapPopup from "../mapPopup/mapPopup";
-import L from "leaflet";
+import { flyTo } from '@/utils/map/map';
+import { Map } from 'leaflet';
+import { FC, useEffect, useMemo, useRef } from 'react';
+import { MapContainer, Marker, TileLayer } from 'react-leaflet';
+import { IMapPartProps } from './mapPart.types';
+import FitBounds from '../fitBounds/fitbounds';
+import MapPopup from '../mapPopup/mapPopup';
+import L from 'leaflet';
 import {
   MAP_INITIAL_COORDINATE,
   MAP_INITIAL_TILE,
   MAP_INITIAL_ZOOM,
-} from "./mapPart.constant";
-import styles from "./mapPart.styles";
+} from './mapPart.constant';
+import styles from './mapPart.styles';
 
 const MapPart: FC<IMapPartProps> = ({
   searchLocationData,
@@ -27,7 +27,7 @@ const MapPart: FC<IMapPartProps> = ({
         key={`centers-on-map-${index}`}
         // icon={myLocationMarker}
         icon={L.divIcon({
-          className: "pin",
+          className: 'pin',
           html: `<div>${index + 1}</div>`,
           iconSize: new L.Point(30, 30),
         })}

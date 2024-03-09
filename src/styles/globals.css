@@ -1,80 +1,73 @@
 @font-face {
   font-display: swap;
-  font-family: VazirMatn;
+  font-family: IranYekan;
   font-style: normal;
   font-weight: 100;
-  src: url("../../public/fonts/vazirMatn/Vazirmatn-Thin.ttf") format("truetype");
+  src: url('../../public/fonts/iranYekan/IRANYekanThinFaNum.ttf')
+    format('truetype');
 }
 
 @font-face {
   font-display: swap;
-  font-family: VazirMatn;
+  font-family: IranYekan;
   font-style: normal;
   font-weight: 200;
-  src: url("../../public/fonts/vazirMatn/Vazirmatn-ExtraLight.ttf")
-    format("truetype");
+  src: url('../../public/fonts/iranYekan/IRANYekanLightFaNum.ttf')
+    format('truetype');
 }
 
 @font-face {
   font-display: swap;
-  font-family: VazirMatn;
-  font-style: normal;
-  font-weight: 300;
-  src: url("../../public/fonts/vazirMatn/Vazirmatn-Light.ttf")
-    format("truetype");
-}
-
-@font-face {
-  font-display: swap;
-  font-family: VazirMatn;
+  font-family: IranYekan;
   font-style: normal;
   font-weight: 400;
-  src: url("../../public/fonts/vazirMatn/Vazirmatn-Regular.ttf")
-    format("truetype");
+  src: url('../../public/fonts/iranYekan/IRANYekanRegularFaNum.ttf')
+    format('truetype');
 }
 
 @font-face {
   font-display: swap;
-  font-family: VazirMatn;
+  font-family: IranYekan;
   font-style: normal;
   font-weight: 500;
-  src: url("../../public/fonts/vazirMatn/Vazirmatn-Medium.ttf")
-    format("truetype");
+  src: url('../../public/fonts/iranYekan/IRANYekanMediumFaNum.ttf')
+    format('truetype');
 }
 
 @font-face {
   font-display: swap;
-  font-family: VazirMatn;
+  font-family: IranYekan;
   font-style: normal;
   font-weight: 600;
-  src: url("../../public/fonts/vazirMatn/Vazirmatn-SemiBold.ttf")
-    format("truetype");
+  src: url('../../public/fonts/iranYekan/IRANYekanBoldFaNum.ttf')
+    format('truetype');
 }
 
 @font-face {
   font-display: swap;
-  font-family: VazirMatn;
+  font-family: IranYekan;
   font-style: normal;
   font-weight: 700;
-  src: url("../../public/fonts/vazirMatn/Vazirmatn-Bold.ttf") format("truetype");
+  src: url('../../public/fonts/iranYekan/IRANYekanExtraBoldFaNum.ttf')
+    format('truetype');
 }
 
 @font-face {
   font-display: swap;
-  font-family: VazirMatn;
+  font-family: IranYekan;
   font-style: normal;
   font-weight: 800;
-  src: url("../../public/fonts/vazirMatn/Vazirmatn-ExtraBold.ttf")
-    format("truetype");
+  src: url('../../public/fonts/iranYekan/IRANYekanBlackFaNum.ttf')
+    format('truetype');
 }
 
 @font-face {
   font-display: swap;
-  font-family: VazirMatn;
+  font-family: IranYekan;
   font-style: normal;
   font-weight: 900;
-  src: url("../../public/fonts/vazirMatn/Vazirmatn-Black.ttf")
-    format("truetype");
+  src: url('../../public/fonts/iranYekan/IRANYekanExtraBlackFaNum.ttf')
+    format('truetype');
 }
 
 html {
@@ -82,7 +75,7 @@ html {
   font-size: 62.5%;
   height: 100%;
   direction: rtl;
-  font-family: "VazirMatn";
+  font-family: 'IranYekan';
 }
 
 a {
