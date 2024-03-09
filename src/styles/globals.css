@@ -98,3 +98,17 @@ body {
   cursor: not-allowed;
   filter: grayscale(1);
 }
+
+/* leaflet marker */
+.pin {
+  width: 100px;
+  height: 100px;
+  background-color: #4c64cf;
+  border-radius: 60px 60px 0px 60px;
+  position: relative;
+  transform: rotate(45deg);
+  text-align: center;
+  font-size: 14px;
+  line-height: 30px;
+  color: #ffffff;
+}
