@@ -1,5 +1,4 @@
-import { IPostSarchLocationResponse } from '@/api/searchLocation/api.types';
-import L from 'leaflet';
+import { IPostSearchLocationResponse } from '@/api/searchLocation/api.types';
 
 // export const myLocationMarker = new L.Icon({
 //   iconUrl: "/images/mapSection/location-marker.png",
@@ -12,6 +11,6 @@ import L from 'leaflet';
 // });
 
 export interface IMapPartProps {
-  searchLocationData: IPostSarchLocationResponse[] | undefined;
+  searchLocationData: IPostSearchLocationResponse[] | undefined;
   fitBoundsTrigger: boolean;
 }

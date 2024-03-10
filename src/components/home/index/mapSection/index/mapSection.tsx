@@ -1,11 +1,13 @@
-import { searchLocation } from '@/api/searchLocation/api';
-import { convertMtoMS } from '@/utils/time/convertMtoMS';
+import { FC, useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
+
 import { Stack } from '@mui/material';
 import { useFormik } from 'formik';
-import dynamic from 'next/dynamic';
-import { FC, useEffect, useState } from 'react';
 import { useMutation } from 'react-query';
 import { toast } from 'react-toastify';
+
+import { searchLocation } from '@/api/searchLocation/api';
+import { convertMtoMS } from '@/utils/time/convertMtoMS';
 import SearchLocationBottomSheet from '../bottomSheets/searchLocationBottomSheet';
 import {
   searchLocationFormInitialValue,
@@ -13,7 +15,7 @@ import {
 } from '../bottomSheets/searchLocationBottomSheet.tools';
 import MapMenu from '../mapMenue/mapMenu';
 import ShowAllLocationsButton from '../showAllLocationsButton/showAllLocationsButton';
-import { IPostSarchLocationResponse } from '@/api/searchLocation/api.types';
+import { IPostSearchLocationResponse } from '@/api/searchLocation/api.types';
 
 const MapPart = dynamic(() => import('../mapPart/mapPart'), {
   ssr: false,
@@ -30,7 +32,7 @@ const MapSection: FC = () => {
   // Interval reference
   const [intervalRef, setIntervalRef] = useState<NodeJS.Timeout | null>(null);
   //searched values
-  const [locations, setLocations] = useState<IPostSarchLocationResponse[]>();
+  const [locations, setLocations] = useState<IPostSearchLocationResponse[]>();
 
   // Function to toggle fit bounds trigger
   const showAllLocations = () => {
@@ -40,7 +42,6 @@ const MapSection: FC = () => {
 
   //search field value
   const {
-    // data: searchLocationData,
     mutate: searchLocationMutation,
     isLoading: searchLocationMutationIsLoading,
   } = useMutation({
@@ -49,6 +50,17 @@ const MapSection: FC = () => {
     onError: () => {
       toast.error('error!!');
     },
+    onSuccess: (response) => {
+      toast.success('success!!');
+      setLocationBottomSheetIsOpen(false);
+      //put locations in state
+      setLocations((prev) => {
+        if (prev) {
+          if (prev[+prev?.length - 1].name === response.name) return prev;
+          else return [...prev, response];
+        } else return [response];
+      });
+    },
   });
 
   //handle search formik
@@ -56,31 +68,14 @@ const MapSection: FC = () => {
     initialValues: searchLocationFormInitialValue,
     validationSchema: searchLocationFormValidationSchema,
     onSubmit: (values) => {
-      searchLocationMutation(
-        { search: values.search },
-        {
-          onSuccess: (response) => {
-            toast.success('success!!');
-            setIsTrackingLocations(true);
-            setLocationBottomSheetIsOpen(false);
-            //put locations in state
-            setLocations((prev) => {
-              // TODO: ask about data identifier
-              if (prev && prev[prev?.length - 1].name === response.name) {
-                return prev;
-              } else if (prev) {
-                return [...prev, response];
-              } else {
-                return [response];
-              }
-            });
-          },
-        }
-      );
+      searchLocationMutation({ search: values.search });
+      //check if has tracking set is tracking true
+      if (searchLocationFormik.values.period?.value !== 0)
+        setIsTrackingLocations(true);
     },
   });
 
-  //if has Tracking
+  //check has Tracking
   const hasTracking =
     !!searchLocationFormik.values.period?.value &&
     searchLocationFormik.values.period?.value !== 0;
@@ -91,15 +86,9 @@ const MapSection: FC = () => {
       if (isTrackingLocation) {
         const intervalId = setInterval(
           () =>
-            searchLocationMutation(
-              { search: searchLocationFormik.values.search ?? '' },
-              {
-                onSuccess: () => {
-                  //mut fly to new lat and lang
-                  //TODO:if need --- check with real api
-                },
-              }
-            ),
+            searchLocationMutation({
+              search: searchLocationFormik.values.search ?? '',
+            }),
           convertMtoMS(searchLocationFormik.values.period?.value as number)
         );
         setIntervalRef(intervalId);
@@ -111,7 +100,11 @@ const MapSection: FC = () => {
         }
       }
     }
-  }, [searchLocationFormik.values.period, isTrackingLocation]);
+  }, [
+    searchLocationFormik.values.period,
+    searchLocationFormik.values.search,
+    isTrackingLocation,
+  ]);
 
   return (
     <Stack>

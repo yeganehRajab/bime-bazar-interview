@@ -1,4 +1,4 @@
-export interface IPostSarchLocationResponse {
+export interface IPostSearchLocationResponse {
   name: string;
   phoneNumber: string;
   address: string;
